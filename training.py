@@ -12,11 +12,29 @@ training_folder = "training"
 features = []
 labels = []
 
+
+def get_hog():
+    winSize = (20,20)
+    blockSize=(8,8)
+    blockStride = (4,4)
+    cellSize=(8,8)
+    nbins = 9
+    derivAperture = 1
+    winSigma = 2.
+    histrogramType = 0
+    L2HysThreshold = 0.2
+    gammaCorrection = 1
+    nlavels = 64
+    signedGradient = True 
+    hog = cv2.HOGDescriptor(winSize,blockSize,blockStride,cellSize,nbins,derivAperture,winSigma,histrogramType,L2HysThreshold,gammaCorrection,nlavels,signedGradient)
+    return hog
+
 # Recorrer las imágenes en la carpeta de entrenamiento
 for filename in os.listdir(training_folder):
     if filename.endswith(".png"):
         # Cargar la imagen
         img_path = os.path.join(training_folder, filename)
+        print(img_path)
         img = cv2.imread(img_path)
 
         # Redimensionar la imagen al tamaño deseado
@@ -26,7 +44,7 @@ for filename in os.listdir(training_folder):
         # ...
 
         # Extraer características (por ejemplo, HOG)
-        hog = cv2.HOGDescriptor()
+        hog = get_hog()
         features_vector = hog.compute(img_resized)
         features.append(features_vector.flatten())  # Añadir las características a la lista
 
