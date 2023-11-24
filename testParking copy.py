@@ -44,7 +44,25 @@ def mostrar_contornos(ruta_imagen):
     plt.show()
 
 
+def mostrar_bordes_canny(ruta_imagen):
+    imagen = cv2.imread(ruta_imagen)
+    imagen_gris = cv2.cvtColor(imagen, cv2.COLOR_BGR2GRAY)
+
+    # Aplicar suavizado para reducir el ruido
+    imagen_suavizada = cv2.GaussianBlur(imagen_gris, (5, 5), 0)
+
+    # Aplicar Canny Edge Detection
+    bordes = cv2.Canny(imagen_suavizada, 50, 150)
+
+    # Mostrar la imagen con los bordes detectados
+    plt.imshow(bordes, cmap='gray')
+    plt.title('Bordes detectados con Canny Edge Detection')
+    plt.axis('off')
+    plt.show()
 
 
-#mostrar_imagen_gris("test/1.png")
-mostrar_contornos("test/1.png")
+
+
+mostrar_imagen_gris("test/2.png")
+mostrar_contornos("test/2.png")
+mostrar_bordes_canny("test/2.png")

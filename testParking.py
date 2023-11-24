@@ -44,5 +44,5 @@ def mostrar_contornos_con_rectangulos_ampliados(ruta_imagen, area_minima):
     plt.axis('off')
     plt.show()
 
-mostrar_contornos_con_rectangulos_ampliados("test/2.png", area_minima=80)  # Ajusta el área mínima y la ampliación según sea necesario
+mostrar_contornos_con_rectangulos_ampliados("test/1.png", area_minima=80)  # Ajusta el área mínima y la ampliación según sea necesario
 

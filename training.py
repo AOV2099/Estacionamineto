@@ -3,6 +3,7 @@ import numpy as np
 import os
 from matplotlib import pyplot as plt
 from sklearn.neighbors import KNeighborsClassifier
+import random
 
 # Tamaño deseado para las imágenes
 desired_size = (100, 100)  # Por ejemplo, 100x100 píxeles
@@ -205,10 +206,7 @@ def train_knn_sklearn():
             # Redimensionar la imagen al tamaño deseado
             img_resized = cv2.resize(img, desired_size)
 
-            # Preprocesamiento si es necesario (cambio de color, etc.)
-            # ...
 
-            # Extraer características (por ejemplo, HOG)
             hog = get_hog()
             features_vector = hog.compute(img_resized)
             features.append(features_vector.flatten())  # Añadir las características a la lista
@@ -228,6 +226,7 @@ def train_knn_sklearn():
     # Guardar el modelo entrenado (opcional)
     import joblib
     joblib.dump(knn, 'knn_model_sklearn.joblib')
+    print("Knn entrenado")
 
 # Llamar a la función para entrenar el clasificador KNN con Sklearn
 train_knn_sklearn()
