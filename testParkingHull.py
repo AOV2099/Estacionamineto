@@ -171,7 +171,11 @@ def encontrar_objetos(imagen_procesada, ruta_imagen_original):
             # Rellenar el rectángulo con la porción correspondiente de la imagen original
             roi = imagen_original[y:y+h, x:x+w]
             imagen_contornos[y:y+h, x:x+w] = roi
-            isCar = detect_car_in_roi(roi)
+            
+            confidence = detect_car_in_roi_sklearn(roi)
+            print("conficence", confidence)
+            isCar = confidence >= 30
+            print(isCar)
 
             if isCar:
                 mask_color = (0, 255, 0, 128)  # Verde semitransparente si es un carro
