@@ -138,6 +138,7 @@ def quitar_bits_cercanos(imagen_procesada, color_objetivo):
     return imagen_procesada
 
 def encontrar_objetos(imagen_procesada, ruta_imagen_original):
+    vehicles = 0
     imagen_original = imagen = cv2.imread(ruta_imagen_original)
     # Aplicar el procesamiento para eliminar bits y encontrar contornos
     imagen_sin_bits = quitar_bits_cercanos(imagen_procesada, (122, 118, 90))  # Utiliza la función actualizada
@@ -179,8 +180,10 @@ def encontrar_objetos(imagen_procesada, ruta_imagen_original):
 
             if isCar:
                 mask_color = (0, 255, 0, 128)  # Verde semitransparente si es un carro
+                vehicles += 1
             else:
                 mask_color = (0, 0, 255, 128)  # Rojo semitransparente si no es un carro
+                
             
             mask = np.zeros_like(roi, dtype=np.uint8)
             mask[:] = mask_color[:3]  # Obtener solo los tres primeros valores de color (BGR)
@@ -193,7 +196,7 @@ def encontrar_objetos(imagen_procesada, ruta_imagen_original):
 
     # Mostrar la imagen con los contornos detectados
     plt.imshow(cv2.cvtColor(imagen_contornos, cv2.COLOR_BGR2RGB))
-    plt.title('Contornos de Objetos')
+    plt.title('Vehículos encontrados = ' + str(vehicles) )
     plt.axis('off')
     plt.show()
 
