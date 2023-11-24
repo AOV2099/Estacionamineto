@@ -2,6 +2,7 @@ import cv2
 from matplotlib import pyplot as plt
 import numpy as np
 import random
+from training import *
 
 def quitar_colores_predominantes(ruta_imagen):
     # Cargar la imagen
@@ -162,13 +163,26 @@ def encontrar_objetos(imagen_procesada, ruta_imagen_original):
             color_random = (random.randint(0,255), random.randint(0,255), random.randint(0,255))
             cv2.fillConvexPoly(imagen_contornos, hull, color_random)
             
-            # Dibujar un rectángulo alrededor del contorno
+            # Dibujar un rectángulo alrededor del contorno+
+     
             x,y,w,h = cv2.boundingRect(c)
             cv2.rectangle(imagen_contornos,(x,y),(x+w,y+h),(0,255,0),2)
             
             # Rellenar el rectángulo con la porción correspondiente de la imagen original
             roi = imagen_original[y:y+h, x:x+w]
             imagen_contornos[y:y+h, x:x+w] = roi
+            isCar = detect_car_in_roi(roi)
+
+            if isCar:
+                mask_color = (0, 255, 0, 128)  # Verde semitransparente si es un carro
+            else:
+                mask_color = (0, 0, 255, 128)  # Rojo semitransparente si no es un carro
+            
+            mask = np.zeros_like(roi, dtype=np.uint8)
+            mask[:] = mask_color[:3]  # Obtener solo los tres primeros valores de color (BGR)
+            mask = cv2.addWeighted(imagen_contornos[y:y + h, x:x + w], 1, mask, mask_color[3]/255, 0)
+            imagen_contornos[y:y + h, x:x + w] = mask
+            
     
     #kernel = np.ones((5,5),np.uint8)
     #imagen_contornos = cv2.dilate(imagen_contornos,kernel,iterations = 1)
@@ -181,6 +195,8 @@ def encontrar_objetos(imagen_procesada, ruta_imagen_original):
 
     return contornos
 # Procesar la imagen y obtener la imagen procesada
+
+
 
 imagen_procesada = quitar_color_predominante("test/2.png")
 quitar_bits_cercanos(imagen_procesada, (122, 118, 90))
