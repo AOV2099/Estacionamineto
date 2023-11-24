@@ -199,5 +199,5 @@ def encontrar_objetos(imagen_procesada, ruta_imagen_original):
 
 
 imagen_procesada = quitar_color_predominante("test/2.png")
-quitar_bits_cercanos(imagen_procesada, (122, 118, 90))
+#quitar_bits_cercanos(imagen_procesada, (122, 118, 90))
 encontrar_objetos(imagen_procesada, "test/2.png")
